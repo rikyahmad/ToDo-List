@@ -18,6 +18,12 @@
           <timeTargetWasSelectedWithDropDown value="2024-05-06T12:28:33.117664Z" />
         </State>
       </entry>
+      <entry key="deleteTask()">
+        <State />
+      </entry>
+      <entry key="insertAndGetTask()">
+        <State />
+      </entry>
     </value>
   </component>
 </project>
