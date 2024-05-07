@@ -15,6 +15,7 @@ roomVersion = "2.6.1"
 lifecycleVersion = "2.7.0"
 coroutineTest = "1.8.1-Beta"
 coreTest = "2.2.0"
+pagingVersion = "3.2.1"
 
 
 [libraries]
@@ -35,6 +36,7 @@ room-testing = { group = "androidx.room", name = "room-testing", version.ref = "
 lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleVersion" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutineTest" }
 androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTest" }
+androidx-pagging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "pagingVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

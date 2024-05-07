@@ -1,5 +1,6 @@
 package com.staygrateful.todolistapp.ui.home.contract
 
+import androidx.lifecycle.LiveData
 import com.staygrateful.todolistapp.data.model.Task
 
 class HomepageContract {
@@ -8,8 +9,6 @@ class HomepageContract {
     }
 
     interface UserActionListener {
-
-        //fun setupListener(activity: ComponentActivity)
         fun getTaskById(taskId: Long): Task?
         fun insertTask(task: Task)
         fun updateTask(task: Task)

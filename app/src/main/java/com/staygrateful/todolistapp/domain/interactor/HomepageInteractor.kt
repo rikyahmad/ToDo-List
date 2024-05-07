@@ -1,5 +1,6 @@
 package com.staygrateful.todolistapp.domain.interactor
 
+import androidx.lifecycle.LiveData
 import com.staygrateful.todolistapp.data.model.Task
 import com.staygrateful.todolistapp.data.repository.TaskRepository
 import com.staygrateful.todolistapp.domain.usecase.HomepageUseCase
@@ -10,7 +11,7 @@ class HomepageInteractor @Inject constructor(
     private val taskRepository: TaskRepository
 ) : HomepageUseCase {
 
-    override val allTasks: Flow<List<Task>> = taskRepository.getAllTasks()
+    override val allTasks: LiveData<List<Task>> = taskRepository.getAllTasks()
 
     override fun getTaskById(taskId: Long): Task? {
         return taskRepository.getTaskById(taskId)

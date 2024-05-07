@@ -32,6 +32,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding = true
+    }
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -44,6 +47,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.pagging)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)

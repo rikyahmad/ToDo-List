@@ -1,5 +1,6 @@
 package com.staygrateful.todolistapp.data.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,8 +11,14 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
+
     @Query("SELECT * FROM tasks")
-    fun getAllTasks(): Flow<List<Task>>
+    fun getAllTasks(): LiveData<List<Task>>
+    @Query("SELECT * FROM tasks WHERE isCompleted = 1")
+    fun getAllCompletedTasks(): LiveData<List<Task>>
+
+    @Query("SELECT * FROM tasks WHERE isCompleted = 0")
+    fun getAllPendingTasks(): LiveData<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     fun getTaskById(taskId: Long): Task?

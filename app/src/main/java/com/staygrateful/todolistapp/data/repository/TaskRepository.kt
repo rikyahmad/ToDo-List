@@ -1,5 +1,7 @@
 package com.staygrateful.todolistapp.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.staygrateful.todolistapp.data.local.dao.TaskDao
 import com.staygrateful.todolistapp.data.model.Task
 import kotlinx.coroutines.flow.Flow
@@ -8,8 +10,16 @@ class TaskRepository(
     private val taskDao: TaskDao,
 ) {
 
-    fun getAllTasks(): Flow<List<Task>> {
+    fun getAllTasks(): LiveData<List<Task>> {
         return taskDao.getAllTasks()
+    }
+
+    fun getAllCompletedTasks(): LiveData<List<Task>> {
+        return taskDao.getAllCompletedTasks()
+    }
+
+    fun getAllPendingTasks(): LiveData<List<Task>> {
+        return taskDao.getAllPendingTasks()
     }
 
     fun getTaskById(taskId: Long): Task? {
