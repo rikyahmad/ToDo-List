@@ -1,18 +1,15 @@
-package com.staygrateful.todolistapp.ui.home.contract
+package com.staygrateful.todolistapp.ui.edit.contract
 
 import androidx.lifecycle.LiveData
 import com.staygrateful.todolistapp.data.model.Task
 
-class HomepageContract {
+class EditpageContract {
     interface View {
         //fun onPermissionResult()
     }
 
     interface UserActionListener {
-        fun getAllTasks(title: String = "")
         fun insertTask(task: Task)
         fun updateTask(task: Task)
-        fun deleteTask(task: Task)
-        fun deleteTaskById(taskId: Long)
     }
 }

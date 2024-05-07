@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.staygrateful.todolistapp.data.model.Task
 import com.staygrateful.todolistapp.databinding.TaskItemLayoutBinding
 
-class TaskAdapter(private val onDeleteClickListener: (Task) -> Unit) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(TaskDiffCallback()) {
+class TaskAdapter(private val onClickListener: (Task) -> Unit) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(TaskDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val binding =
@@ -29,7 +29,7 @@ class TaskAdapter(private val onDeleteClickListener: (Task) -> Unit) : ListAdapt
                 val position = absoluteAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val task = getItem(position)
-                    onDeleteClickListener(task)
+                    onClickListener(task)
                 }
             }
         }

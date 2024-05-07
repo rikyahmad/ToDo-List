@@ -12,16 +12,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
 
-    @Query("SELECT * FROM tasks")
-    fun getAllTasks(): LiveData<List<Task>>
-    @Query("SELECT * FROM tasks WHERE isCompleted = 1")
-    fun getAllCompletedTasks(): LiveData<List<Task>>
-
-    @Query("SELECT * FROM tasks WHERE isCompleted = 0")
-    fun getAllPendingTasks(): LiveData<List<Task>>
+    @Query("SELECT * FROM tasks WHERE title LIKE '%' || :title || '%'")
+    fun getAllTasks(title: String): Flow<List<Task>>
 
     @Query("SELECT * FROM tasks WHERE id = :taskId")
-    fun getTaskById(taskId: Long): Task?
+    suspend fun getTaskById(taskId: Long): Task?
 
     @Insert
     suspend fun insertTask(task: Task)

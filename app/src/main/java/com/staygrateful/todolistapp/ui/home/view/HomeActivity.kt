@@ -1,5 +1,6 @@
 package com.staygrateful.todolistapp.ui.home.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -13,6 +14,7 @@ import com.staygrateful.todolistapp.data.model.Task
 import com.staygrateful.todolistapp.databinding.ActivityMainBinding
 import com.staygrateful.todolistapp.external.callback.SwipeToDeleteCallback
 import com.staygrateful.todolistapp.external.extension.showSnackbar
+import com.staygrateful.todolistapp.ui.edit.view.EditTaskActivity
 import com.staygrateful.todolistapp.ui.home.adapter.TaskAdapter
 import com.staygrateful.todolistapp.ui.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,8 +37,8 @@ class HomeActivity : AppCompatActivity() {
     // Adapter for managing task data in the RecyclerView
     private val taskAdapter: TaskAdapter by lazy {
         TaskAdapter(
-            onDeleteClickListener = {
-                //homeViewModel.deleteTask(it)
+            onClickListener = { task ->
+                EditTaskActivity.start(this, task)
             }
         )
     }
@@ -67,7 +69,7 @@ class HomeActivity : AppCompatActivity() {
      * Observes changes in task data and updates the UI accordingly.
      */
     private fun setupObserver() {
-        homeViewModel.allTasksLiveData.observe(this) { tasks ->
+        homeViewModel.allTasks.observe(this) { tasks ->
             tasks?.let {
                 taskAdapter.submitList(it)
             }
@@ -79,16 +81,7 @@ class HomeActivity : AppCompatActivity() {
      */
     private fun setupButtonListener() {
         binding.addTaskButton.setOnClickListener {
-            // Insert a new task when the button is clicked
-            homeViewModel.insertTask(
-                Task(
-                    0,
-                    "Task added",
-                    "Description added",
-                    System.currentTimeMillis() + 1000 * 60 * 60 * 24,
-                    false
-                )
-            )
+            EditTaskActivity.start(this)
         }
     }
 

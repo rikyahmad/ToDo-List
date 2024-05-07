@@ -15,6 +15,7 @@ roomVersion = "2.6.1"
 lifecycleVersion = "2.7.0"
 coroutineTest = "1.8.1-Beta"
 coreTest = "2.2.0"
+kotlinPlugin = "1.8.10"
 pagingVersion = "3.2.1"
 
 
@@ -43,4 +44,5 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinAndroidKsp = { id = "com.google.devtools.ksp", version.ref = "kspVersion" }
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize",  version.ref = "kotlinPlugin"  }
 

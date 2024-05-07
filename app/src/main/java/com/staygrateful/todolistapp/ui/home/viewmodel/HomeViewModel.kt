@@ -22,16 +22,16 @@ class HomeViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application), HomepageContract.UserActionListener, DefaultLifecycleObserver {
 
-    private val _allTasksLiveData: MutableLiveData<List<Task>> = MutableLiveData()
+    val allTasks: LiveData<List<Task>> = interactor.allTasks
 
-    val allTasksLiveData: LiveData<List<Task>> = interactor.allTasks
-
-    fun getTaskList() {
-        //_allTasksLiveData.value = interactor.allTasks
+    init {
+        getAllTasks()
     }
 
-    override fun getTaskById(taskId: Long): Task? {
-        return interactor.getTaskById(taskId)
+    override fun getAllTasks(title: String) {
+        viewModelScope.launch {
+            interactor.getAllTasks(title)
+        }
     }
 
     override fun insertTask(task: Task) {

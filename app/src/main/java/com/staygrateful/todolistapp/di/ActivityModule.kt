@@ -1,6 +1,8 @@
 package com.staygrateful.todolistapp.di
 
+import com.staygrateful.todolistapp.domain.interactor.EditpageInteractor
 import com.staygrateful.todolistapp.domain.interactor.HomepageInteractor
+import com.staygrateful.todolistapp.domain.usecase.EditpageUseCase
 import com.staygrateful.todolistapp.domain.usecase.HomepageUseCase
 import dagger.Binds
 import dagger.Module
@@ -13,4 +15,7 @@ abstract class ActivityModule {
 
     @Binds
     abstract fun bindHomeUseCase(interactor: HomepageInteractor): HomepageUseCase
+
+    @Binds
+    abstract fun bindEditUseCase(interactor: EditpageInteractor): EditpageUseCase
 }

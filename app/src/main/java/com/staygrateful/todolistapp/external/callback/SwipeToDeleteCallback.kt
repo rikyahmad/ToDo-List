@@ -3,7 +3,6 @@ package com.staygrateful.todolistapp.external.callback
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
@@ -138,6 +137,13 @@ class SwipeToDeleteCallback(private val context: Context, private val listener: 
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
+    /**
+     * Calculates the scale factor for the swipe animation based on the swipe distance.
+     * @param swipeThresholdStart The starting threshold position in pixels.
+     * @param swipeThresholdEnd The ending threshold position in pixels.
+     * @param dX The horizontal swipe distance.
+     * @return The calculated scale factor for the swipe animation, clamped between 0 and 1.
+     */
     private fun calculateScaleFactor(
         swipeThresholdStart: Float,
         swipeThresholdEnd: Float,
