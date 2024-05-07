@@ -1,14 +1,12 @@
 package com.staygrateful.todolistapp.data.model
 
-import android.icu.text.SimpleDateFormat
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.staygrateful.todolistapp.external.extension.getFormattedDate
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
-import java.util.Date
-import java.util.Locale
 
 @Entity(tableName = "tasks")
 @Parcelize
@@ -21,11 +19,6 @@ data class Task(
     var isCompleted: Boolean = false
 ) : Parcelable {
 
-    private fun getFormattedDueDate(dueDate: Long): String {
-        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        return dateFormat.format(Date(dueDate))
-    }
-
     val hasId: Boolean get() = id > 0
 
     @Ignore
@@ -33,7 +26,7 @@ data class Task(
     var formattedDueDate: String? = null
         get() {
             if (field.isNullOrEmpty()) {
-                field = getFormattedDueDate(dueDate)
+                field = dueDate.getFormattedDate()
             }
             return field
         }
@@ -43,5 +36,4 @@ data class Task(
 
         fun newInstance(): Task = Task(0L, "", "", System.currentTimeMillis())
     }
-
 }

@@ -7,6 +7,7 @@ import com.staygrateful.todolistapp.data.model.Task
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TaskRepository(
     private val taskDao: TaskDao,
@@ -16,10 +17,11 @@ class TaskRepository(
 
     val allTasks: LiveData<List<Task>> = _allTasks
 
+    private var searchFilter: String = ""
+
     suspend fun getAllTasks(title: String) {
-        taskDao.getAllTasks(title).collect { task ->
-            _allTasks.value = task
-        }
+        _allTasks.value = taskDao.getAllTasks(title)
+        searchFilter = title
     }
 
     suspend fun getTaskById(taskId: Long): Task? {
@@ -28,21 +30,30 @@ class TaskRepository(
 
     suspend fun insertTask(task: Task) {
         taskDao.insertTask(task)
+        getAllTasks(searchFilter)
     }
 
     suspend fun updateTask(task: Task) {
         taskDao.updateTask(task)
+        getAllTasks(searchFilter)
     }
 
     suspend fun deleteTask(task: Task) {
-        taskDao.deleteTask(task)
+        // use query to get result row count
+        deleteTaskById(task.id)
     }
 
     suspend fun deleteTaskById(taskId: Long) {
-        taskDao.deleteTaskById(taskId)
+        taskDao.deleteTaskById(taskId).also { result ->
+            println("Delete Result : $result")
+            if(result > 0) {
+                getAllTasks(searchFilter)
+            }
+        }
     }
 
     suspend fun deleteAllTasks() {
         taskDao.deleteAllTasks()
+        getAllTasks(searchFilter)
     }
 }

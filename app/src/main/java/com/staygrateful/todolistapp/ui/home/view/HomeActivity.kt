@@ -4,16 +4,17 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.staygrateful.todolistapp.R
-import com.staygrateful.todolistapp.data.model.Task
 import com.staygrateful.todolistapp.databinding.ActivityMainBinding
 import com.staygrateful.todolistapp.external.callback.SwipeToDeleteCallback
 import com.staygrateful.todolistapp.external.extension.showSnackbar
+import com.staygrateful.todolistapp.external.helper.AlarmSchedulerHelper
+import com.staygrateful.todolistapp.ui.BaseActivity
 import com.staygrateful.todolistapp.ui.edit.view.EditTaskActivity
 import com.staygrateful.todolistapp.ui.home.adapter.TaskAdapter
 import com.staygrateful.todolistapp.ui.home.viewmodel.HomeViewModel
@@ -24,7 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * Users can view, add, and delete tasks from this screen.
  */
 @AndroidEntryPoint
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
 
     // ViewModel for managing data and business logic related to the home screen
     private val homeViewModel by viewModels<HomeViewModel>()
@@ -46,6 +47,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        receiveIntentExtra(intent)
+
         // Enable edge-to-edge display for immersive experience
         enableEdgeToEdge()
 
@@ -65,10 +68,19 @@ class HomeActivity : AppCompatActivity() {
         setupObserver()
     }
 
+    private fun receiveIntentExtra(intent: Intent) {
+        if (intent.getLongExtra(AlarmSchedulerHelper.TASK_ID, -1L) > 0L) {
+            // TODO:
+        }
+    }
+
     /**
      * Observes changes in task data and updates the UI accordingly.
      */
     private fun setupObserver() {
+        binding.searchEditText.addTextChangedListener {
+            homeViewModel.getAllTasks(it.toString())
+        }
         homeViewModel.allTasks.observe(this) { tasks ->
             tasks?.let {
                 taskAdapter.submitList(it)

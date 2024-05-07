@@ -1,32 +1,60 @@
 <!-- task_item_layout.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?selectableItemBackground"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="?selectableItemBackground">
 
-    <TextView
-        android:id="@+id/taskNameTextView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        tools:text="Task Name"/>
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="27dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/completeCheckBox">
 
-    <TextView
-        android:id="@+id/dueDateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        tools:text="Task Date" />
+        <TextView
+            android:id="@+id/taskNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/dark_gray"
+            tools:text="Task Name"/>
+
+        <TextView
+            android:id="@+id/dueDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13.5sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/gray"
+            tools:text="Jan 11, 2023 at pm" />
+
+    </LinearLayout>
 
     <CheckBox
         android:id="@+id/completeCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Completed"
-        android:visibility="gone" />
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        android:layout_marginEnd="15dp"
+        android:layout_alignParentEnd="true"/>
 
-</LinearLayout>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/divider"
+        android:layout_marginHorizontal="@dimen/default_margin"
+        android:layout_below="@id/content"/>
+
+</RelativeLayout>

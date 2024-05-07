@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">To-Do List App</string>
+    <string name="notification_channel_alarm">Channel for alarm notifications</string>
+    <string name="notification_set_completed">Set Completed</string>
 </resources>

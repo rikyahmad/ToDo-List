@@ -38,8 +38,8 @@ class TaskAdapter(private val onClickListener: (Task) -> Unit) : ListAdapter<Tas
             binding.taskNameTextView.text = task.title
             binding.dueDateTextView.text = task.formattedDueDate
             binding.completeCheckBox.isChecked = task.isCompleted
-            binding.completeCheckBox.visibility =
-                if (task.isCompleted) ViewGroup.VISIBLE else ViewGroup.GONE
+            /*binding.completeCheckBox.visibility =
+                if (task.isCompleted) ViewGroup.VISIBLE else ViewGroup.GONE*/
         }
     }
 

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface TaskDao {
 
     @Query("SELECT * FROM tasks WHERE title LIKE '%' || :title || '%'")
-    fun getAllTasks(title: String): Flow<List<Task>>
+    suspend fun getAllTasks(title: String): List<Task>
 
     @Query("SELECT * FROM tasks WHERE id = :taskId")
     suspend fun getTaskById(taskId: Long): Task?
@@ -28,7 +28,7 @@ interface TaskDao {
     suspend fun deleteTask(task: Task)
 
     @Query("DELETE FROM tasks WHERE id = :taskId")
-    suspend fun deleteTaskById(taskId: Long)
+    suspend fun deleteTaskById(taskId: Long): Int
 
     @Query("DELETE FROM tasks")
     suspend fun deleteAllTasks()

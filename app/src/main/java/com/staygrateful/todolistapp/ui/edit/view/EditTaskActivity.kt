@@ -10,12 +10,13 @@ import androidx.core.widget.addTextChangedListener
 import com.staygrateful.todolistapp.data.model.Task
 import com.staygrateful.todolistapp.databinding.ActivityEditTaskBinding
 import com.staygrateful.todolistapp.databinding.ActivityMainBinding
+import com.staygrateful.todolistapp.ui.BaseActivity
 import com.staygrateful.todolistapp.ui.edit.viewmodel.EditViewModel
 import com.staygrateful.todolistapp.ui.home.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EditTaskActivity : AppCompatActivity() {
+class EditTaskActivity : BaseActivity() {
 
     // ViewModel for managing data and business logic related to the home screen
     private val viewModel by viewModels<EditViewModel>()

@@ -29,7 +29,7 @@ class SwipeToDeleteCallback(private val context: Context, private val listener: 
     }
 
     // Drawable background color for swiped item
-    private val background: ColorDrawable = ColorDrawable(Color.RED)
+    private val background: ColorDrawable = ColorDrawable(ContextCompat.getColor(context, R.color.secondary))
 
     // Flag to indicate whether the initialization has been completed
     private var initiated: Boolean = false

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -25,6 +30,9 @@
         <activity
             android:name=".ui.edit.view.EditTaskActivity"
             android:exported="false" />
+        <receiver android:name=".external.receiver.AlarmReceiver" />
+        <receiver android:name=".external.receiver.EarlyAlarmReceiver" />
+        <receiver android:name=".external.receiver.TaskCompletedReceiver" />
     </application>
 
 </manifest>

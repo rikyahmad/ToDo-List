@@ -7,28 +7,29 @@ import com.staygrateful.todolistapp.data.repository.TaskRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.android.scopes.ViewModelScoped
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
+
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideTaskDatabase(@ApplicationContext context: Context): TaskDatabase {
         return TaskDatabase.getDatabase(context)
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideTaskDao(database: TaskDatabase): TaskDao {
         return database.taskDao()
     }
 
     @Provides
-    @ViewModelScoped
+    @Singleton
     fun provideRepository(taskDao: TaskDao): TaskRepository {
         return TaskRepository(taskDao)
     }
