@@ -4,33 +4,29 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.staygrateful.todolistapp.data.model.Task
 import com.staygrateful.todolistapp.domain.interactor.HomepageInteractor
 import com.staygrateful.todolistapp.ui.home.contract.HomepageContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
  * ViewModel class for managing data and business logic related to the home screen.
- * Communicates with the interactor layer to perform data operations.
- * @param interactor The interactor responsible for interacting with the data layer.
+ * Communicates with the useCase layer to perform data operations.
+ * @param useCase The useCase responsible for interacting with the data layer.
  * @param application The application context.
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val interactor: HomepageInteractor,
+    private val useCase: HomepageInteractor,
     application: Application
 ) : AndroidViewModel(application), HomepageContract.UserActionListener, DefaultLifecycleObserver {
 
     // LiveData for observing the list of all tasks
-    val allTasks: LiveData<List<Task>> = interactor.allTasks
+    val allTasks: LiveData<List<Task>> = useCase.allTasks
 
     /**
      * Initializes the ViewModel by retrieving all tasks from the data layer.
@@ -46,7 +42,7 @@ class HomeViewModel @Inject constructor(
      */
     override fun getAllTasks(title: String) {
         viewModelScope.launch {
-            interactor.getAllTasks(title)
+            useCase.getAllTasks(title)
         }
     }
 
@@ -59,7 +55,7 @@ class HomeViewModel @Inject constructor(
      * @return A LiveData of List<Task> representing upcoming tasks.
      */
     override fun getUpcomingTasks(): Flow<List<Task>> {
-        return interactor.getUpcomingTasks(System.currentTimeMillis())
+        return useCase.getUpcomingTasks(System.currentTimeMillis())
     }
 
     /**
@@ -68,7 +64,7 @@ class HomeViewModel @Inject constructor(
      */
     override fun insertTask(task: Task) {
         viewModelScope.launch {
-            interactor.insertTask(task)
+            useCase.insertTask(task)
         }
     }
 
@@ -78,7 +74,7 @@ class HomeViewModel @Inject constructor(
      */
     override fun updateTask(task: Task) {
         viewModelScope.launch {
-            interactor.updateTask(task)
+            useCase.updateTask(task)
         }
     }
 
@@ -88,7 +84,7 @@ class HomeViewModel @Inject constructor(
      */
     override fun deleteTask(task: Task) {
         viewModelScope.launch {
-            interactor.deleteTask(task)
+            useCase.deleteTask(task)
         }
     }
 
@@ -98,7 +94,7 @@ class HomeViewModel @Inject constructor(
      */
     override fun deleteTaskById(taskId: Long) {
         viewModelScope.launch {
-            interactor.deleteTaskById(taskId)
+            useCase.deleteTaskById(taskId)
         }
     }
 }
