@@ -121,7 +121,7 @@ object NotificationHelper {
         return NotificationCompat.Builder(context.applicationContext, channelID)
             .setOngoing(false)
             .setAutoCancel(true)
-            .setSmallIcon(R.drawable.ic_delete) // Required.
+            .setSmallIcon(R.mipmap.ic_launcher) // Required.
             .setPriority(priority)
             .setDefaults(NotificationCompat.DEFAULT_LIGHTS)
             .setCategory(Notification.CATEGORY_REMINDER)
@@ -129,7 +129,7 @@ object NotificationHelper {
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(openedPI)
             .addAction(
-                R.drawable.ic_delete,
+                R.drawable.ic_check,
                 context.getString(R.string.notification_set_completed), completedPI
             )
             .setContentTitle(title) // Required.

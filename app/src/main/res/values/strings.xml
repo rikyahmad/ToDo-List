@@ -26,4 +26,11 @@
     <string name="notification_task_alert">Task Alert: %1$s</string>
     <string name="notification_upcoming_task">Upcoming Task: %1$s</string>
     <string name="notification_upcoming_message">Your task reminder will sound in 10 minutes.</string>
+    <string name="desc_back">Back</string>
+    <string name="title_create_new_task">Create New Task</string>
+    <string name="title_task">Task Title</string>
+    <string name="hint_add_task_name">Add task name</string>
+    <string name="title_description_optional">Description (optional)</string>
+    <string name="hint_add_descriptions">Add descriptions</string>
+    <string name="title_date">Date</string>
 </resources>
