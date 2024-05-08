@@ -4,7 +4,7 @@ This Todo List App is a simple yet powerful task management application designed
 
 #### Preview Screenshots:
 
-<img src="images/Preview.gif" width="170" />     <img src="images/Screenshot_001.png" width="170" />     <img src="images/Screenshot_004.png" width="170" />     <img src="images/Screenshot_003.png" width="170" />     <img src="images/Screenshot_002.png" width="170" />
+<img src="images/Preview.gif" width="170" />     <img src="images/Screenshot_001.png" width="170" />     <img src="images/Screenshot_004.png" width="170" />     <img src="images/Screenshot_002.png" width="170" />
 
 
 #### Features:
