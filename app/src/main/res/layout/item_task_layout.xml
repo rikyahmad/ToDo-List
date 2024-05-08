@@ -24,17 +24,17 @@
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@color/dark_gray"
+            android:textColor="@color/text_title"
             tools:text="Task Name"/>
 
         <TextView
             android:id="@+id/dueDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13.5sp"
+            android:textSize="13sp"
             android:maxLines="1"
             android:ellipsize="end"
-            android:textColor="@color/gray"
+            android:textColor="@color/text_desc"
             tools:text="Jan 11, 2023 at pm" />
 
     </LinearLayout>

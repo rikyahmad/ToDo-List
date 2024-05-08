@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.staygrateful.todolistapp.data.model.Task
-import com.staygrateful.todolistapp.databinding.TaskItemLayoutBinding
+import com.staygrateful.todolistapp.databinding.ItemTaskLayoutBinding
 
 class TaskAdapter(private val onClickListener: (Task) -> Unit) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(TaskDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val binding =
-            TaskItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemTaskLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TaskViewHolder(binding)
     }
 
@@ -21,7 +21,7 @@ class TaskAdapter(private val onClickListener: (Task) -> Unit) : ListAdapter<Tas
         holder.bind(task)
     }
 
-    inner class TaskViewHolder(private val binding: TaskItemLayoutBinding) :
+    inner class TaskViewHolder(private val binding: ItemTaskLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {

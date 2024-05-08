@@ -9,7 +9,6 @@ class EditpageContract {
     }
 
     interface UserActionListener {
-        fun insertTask(task: Task)
-        fun updateTask(task: Task)
+        fun saveTask(task: Task, onResult: (Throwable?) -> Unit)
     }
 }

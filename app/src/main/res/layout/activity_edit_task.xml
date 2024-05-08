@@ -1,35 +1,182 @@
-<!-- activity_edit_task.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <!-- EditText for task title -->
-    <EditText
-        android:id="@+id/editTextTaskTitle"
+    <!-- Header / Toolbar -->
+    <LinearLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="11dp"
+        android:paddingEnd="@dimen/default_margin">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewBack"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:background="?selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="Back"
+            android:focusable="true"
+            android:padding="7dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Create New Task"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:background="@color/white"
+        android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/default_margin"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingBottom="80dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Task Title Form -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Task Title"
+                android:textColor="@color/text_title"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editTextTaskTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_form"
+                android:gravity="top|start"
+                android:hint="Add task name"
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:minLines="1"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="12dp"
+                android:textColor="@color/text_title"
+                android:textColorHint="@color/text_desc"
+                android:textSize="16sp" />
+
+            <!-- Description Title Form -->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Description (optional)"
+                android:textColor="@color/text_title"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editTextDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_form"
+                android:gravity="top|start"
+                android:hint="Add descriptions"
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:minLines="3"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="12dp"
+                android:textColor="@color/text_title"
+                android:textColorHint="@color/text_desc"
+                android:textSize="16sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Date"
+                android:textColor="@color/text_title"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ripple_bg_form"
+                android:clickable="true"
+                android:drawableStart="@drawable/ic_calendar"
+                android:drawablePadding="7dp"
+                android:drawableTint="@color/dark_gray"
+                android:focusable="true"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="12dp"
+                android:text="@string/date_hint"
+                android:textColor="@color/text_title"
+                android:textColorHint="@color/text_desc"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:id="@+id/content_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Task Title"
-        android:inputType="text"
-        android:layout_marginBottom="16dp"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="0dp"
+        android:clipToPadding="false"
+        android:orientation="horizontal"
+        android:padding="@dimen/default_margin">
 
-    <!-- EditText for task description -->
-    <EditText
-        android:id="@+id/editTextTaskDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Task Description"
-        android:inputType="textMultiLine"
-        android:minLines="3"
-        android:layout_below="@id/editTextTaskTitle"
-        android:layout_marginBottom="16dp"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="9dp"
+            android:layout_weight="1"
+            android:background="@drawable/ripple_bg_button_line"
+            android:text="@string/button_cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/text_title" />
 
-    <!-- Button to save changes -->
-    <Button
-        android:id="@+id/buttonSaveTask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:layout_below="@id/editTextTaskDescription"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonCreateTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="9dp"
+            android:layout_weight="1"
+            android:background="@drawable/ripple_bg_button"
+            android:text="@string/button_create_task"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </RelativeLayout>

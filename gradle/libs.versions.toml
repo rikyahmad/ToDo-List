@@ -17,6 +17,7 @@ coroutineTest = "1.8.1-Beta"
 coreTest = "2.2.0"
 kotlinPlugin = "1.8.10"
 pagingVersion = "3.2.1"
+material3Android = "1.2.1"
 
 
 [libraries]
@@ -38,6 +39,7 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutineTest" }
 androidx-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "coreTest" }
 androidx-pagging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "pagingVersion" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

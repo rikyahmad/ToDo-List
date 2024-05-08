@@ -26,45 +26,57 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
-            android:textSize="21sp"
-            android:text="Todo List" />
+            android:text="@string/app_title"
+            android:textColor="@color/text_title"
+            android:textSize="21sp" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/searchEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:hint="Search"
-            android:textSize="16sp"
-            android:inputType="text"
-            android:textColor="@color/dark_gray"
-            android:textColorHint="@color/gray"
-            android:drawableTint="@color/gray"
+            android:background="@drawable/bg_search"
             android:drawableStart="@drawable/ic_search"
             android:drawablePadding="5dp"
+            android:drawableTint="@color/gray"
+            android:hint="@string/search_hint"
+            android:inputType="text"
             android:paddingHorizontal="10dp"
             android:paddingVertical="7dp"
-            android:background="@drawable/search_border"
+            android:textColor="@color/text_title"
+            android:textColorHint="@color/text_desc"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/todoListTextView" />
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/taskRecyclerView"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingBottom="80dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
-        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header"
-        tools:itemCount="5"
-        tools:listitem="@layout/task_item_layout"/>
+        app:layout_constraintTop_toBottomOf="@+id/header">
+
+        <include
+            android:id="@+id/contentEmpty"
+            layout="@layout/content_empty"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/taskRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_task_layout" />
+
+    </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addTaskButton"
@@ -72,11 +84,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="25dp"
+        android:contentDescription="@string/desc_button_add"
         android:src="@drawable/ic_add"
-        app:tint="@color/white"
         app:backgroundTint="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="ok" />
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

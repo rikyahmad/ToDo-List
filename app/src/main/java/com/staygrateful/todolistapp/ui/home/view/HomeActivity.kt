@@ -2,6 +2,7 @@ package com.staygrateful.todolistapp.ui.home.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.view.ViewCompat
@@ -82,8 +83,10 @@ class HomeActivity : BaseActivity() {
             homeViewModel.getAllTasks(it.toString())
         }
         homeViewModel.allTasks.observe(this) { tasks ->
-            tasks?.let {
-                taskAdapter.submitList(it)
+            with(tasks) {
+                taskAdapter.submitList(this)
+                binding.contentEmpty.root.visibility =
+                    if (tasks.isEmpty()) View.VISIBLE else View.GONE
             }
         }
     }

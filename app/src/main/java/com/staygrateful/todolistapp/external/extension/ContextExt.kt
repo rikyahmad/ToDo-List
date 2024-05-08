@@ -9,8 +9,8 @@ fun Context.showToast(title: String) {
     Toast.makeText(this, title, Toast.LENGTH_SHORT).show()
 }
 
-fun View.showSnackbar(title: String, actionText: String? = null, onActionClick: () -> Unit = {}) {
-    val snackbar = Snackbar.make(this, title, Snackbar.LENGTH_LONG)
+fun View.showSnackbar(message: String, actionText: String? = null, onActionClick: () -> Unit = {}) {
+    val snackbar = Snackbar.make(this, message, Snackbar.LENGTH_LONG)
     actionText?.let {
         snackbar.setAction(actionText) {
             onActionClick.invoke()

@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.pagging)
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.material3.android)
     ksp(libs.hilt.compiler)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
