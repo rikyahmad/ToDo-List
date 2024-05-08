@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">To-Do List App</string>
+    <string name="app_name">Todo List</string>
     <string name="notification_channel_alarm">Channel for alarm notifications</string>
     <string name="notification_set_completed">Set Completed</string>
     <string name="button_create_task">Create Task</string>
@@ -13,6 +13,17 @@
     <string name="error_form_past_date">The due date selected is not valid. Please select a future date for the task.</string>
     <string name="error_message_oops">Oops!</string>
     <string name="error_message_empty_task">No tasks available.</string>
+    <string name="error_message_found_task">No tasks found.</string>
     <string name="desc_button_add">Button Add</string>
     <string name="error_message_task">Error, %1$s</string>
+    <string name="error_permission_exact_alarm">To schedule alarms accurately, please grant the permission to schedule exact alarms.</string>
+    <string name="error_permission_post_notification">To receive notifications, please grant the permission to post notifications.</string>
+    <string name="error_to_schedule_alarm">Unable to schedule the alarm</string>
+    <string name="error_cancel_task_reminder">Error cancel task reminder, %1$s</string>
+    <string name="task_deleted">Task deleted</string>
+    <string name="undo">Undo</string>
+    <string name="alarm_canceled_successfully">Alarm has been canceled successfully.</string>
+    <string name="notification_task_alert">Task Alert: %1$s</string>
+    <string name="notification_upcoming_task">Upcoming Task: %1$s</string>
+    <string name="notification_upcoming_message">Your task reminder will sound in 10 minutes.</string>
 </resources>

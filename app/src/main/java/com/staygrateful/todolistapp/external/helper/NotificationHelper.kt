@@ -19,12 +19,11 @@ import com.staygrateful.todolistapp.ui.home.view.HomeActivity
 /**
  * Helper class for managing alarm notifications.
  */
-object AlarmNotificationHelper {
+object NotificationHelper {
 
     private const val CHANNEL_ID = "alarm_channel"
     private const val EARLY_CHANNEL_ID = "early_alarm_channel"
     private const val CHANNEL_NAME = "Alarm Channel"
-    private const val NOTIFICATION_ID = 123
 
     /**
      * Shows an alarm notification.
@@ -54,16 +53,16 @@ object AlarmNotificationHelper {
             earlyNotification = earlyNotification
         )
 
-        nm.notify(NOTIFICATION_ID, nb.build())
+        nm.notify(taskId.toInt(), nb.build())
     }
 
     /**
      * Cancels the alarm notification.
      * @param context The application context.
      */
-    fun cancelNotification(context: Context) {
+    fun cancelNotification(context: Context, taskId: Long) {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        nm.cancel(NOTIFICATION_ID)
+        nm.cancel(taskId.toInt())
     }
 
     /**
@@ -100,12 +99,12 @@ object AlarmNotificationHelper {
             earlyNotification
         )
 
-        val opennedPI = PendingIntent.getActivity(
+        val openedPI = PendingIntent.getActivity(
             context,
             taskId.toInt(),
             Intent(context, HomeActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                putExtra(AlarmSchedulerHelper.TASK_ID, taskId)
+                putExtra(SchedulerHelper.TASK_ID, taskId)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -114,7 +113,7 @@ object AlarmNotificationHelper {
             context,
             taskId.toInt(),
             Intent(context, TaskCompletedReceiver::class.java).apply {
-                putExtra(AlarmSchedulerHelper.TASK_ID, taskId)
+                putExtra(SchedulerHelper.TASK_ID, taskId)
             },
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -128,7 +127,7 @@ object AlarmNotificationHelper {
             .setCategory(Notification.CATEGORY_REMINDER)
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .setContentIntent(opennedPI)
+            .setContentIntent(openedPI)
             .addAction(
                 R.drawable.ic_delete,
                 context.getString(R.string.notification_set_completed), completedPI

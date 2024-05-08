@@ -11,6 +11,7 @@ import com.staygrateful.todolistapp.data.model.Task
 import com.staygrateful.todolistapp.domain.interactor.HomepageInteractor
 import com.staygrateful.todolistapp.ui.home.contract.HomepageContract
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -47,6 +48,18 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             interactor.getAllTasks(title)
         }
+    }
+
+    /**
+     * Get upcoming tasks based on the due date.
+     *
+     * This method retrieves a list of tasks where the due date is greater than the current time,
+     * ordered by due date in ascending order.
+     *
+     * @return A LiveData of List<Task> representing upcoming tasks.
+     */
+    override fun getUpcomingTasks(): Flow<List<Task>> {
+        return interactor.getUpcomingTasks(System.currentTimeMillis())
     }
 
     /**

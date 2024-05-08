@@ -13,7 +13,10 @@ import com.staygrateful.todolistapp.databinding.ItemTaskLayoutBinding
  * Handles creating ViewHolders, binding task data to ViewHolder, and detecting changes in the list of tasks.
  * @param onClickListener A lambda function to handle item click events.
  */
-class TaskAdapter(private val onClickListener: (Task) -> Unit) :
+class TaskAdapter(
+    private val onClickListener: (Task) -> Unit,
+    private val onCompletedChecked: (Task, Boolean) -> Unit
+) :
     ListAdapter<Task, TaskAdapter.TaskViewHolder>(TaskDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -43,6 +46,16 @@ class TaskAdapter(private val onClickListener: (Task) -> Unit) :
                 if (position != RecyclerView.NO_POSITION) {
                     val task = getItem(position)
                     onClickListener(task)
+                }
+            }
+
+            binding.completeCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                val position = absoluteAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val task = getItem(position).apply {
+                        isCompleted = isChecked
+                    }
+                    onCompletedChecked(task, isChecked)
                 }
             }
         }

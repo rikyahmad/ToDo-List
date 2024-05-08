@@ -6,6 +6,7 @@ import com.staygrateful.todolistapp.data.local.dao.TaskDao
 import com.staygrateful.todolistapp.data.model.Task
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -44,6 +45,19 @@ class TaskRepository(
     }
 
     /**
+     * Get upcoming tasks based on the due date.
+     *
+     * This method retrieves a list of tasks where the due date is greater than the current time,
+     * ordered by due date in ascending order.
+     *
+     * @param currentTimeMillis The current time in milliseconds used for comparison with due dates.
+     * @return A Flow of List<Task> representing upcoming tasks.
+     */
+    fun getUpcomingTasks(currentTimeMillis: Long): Flow<List<Task>> {
+        return taskDao.getUpcomingTasks(currentTimeMillis)
+    }
+
+    /**
      * Retrieves a task by its ID from the database.
      *
      * This method retrieves a task from the database based on its ID.
@@ -53,6 +67,10 @@ class TaskRepository(
      */
     suspend fun getTaskById(taskId: Long): Task? {
         return taskDao.getTaskById(taskId)
+    }
+
+    suspend fun updateTaskCompletion(taskId: Long, completed: Boolean) {
+        taskDao.updateTaskCompletion(taskId, completed)
     }
 
     /**

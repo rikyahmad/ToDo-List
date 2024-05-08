@@ -19,12 +19,17 @@ import java.util.Locale
  *                       and the formatted date-time string as parameters.
  */
 fun Context.showDateTimePickerDialog(
+    currentTimeInMillis: Long = System.currentTimeMillis(),
     pattern: String = "dd-MM-yyyy HH:mm",
     onSelectedDate: (Long, String) -> Unit
 ) {
     // Initialize Calendar instances for selected and current dates
-    val selectedDate = Calendar.getInstance()
-    val currentDate = Calendar.getInstance()
+    val selectedDate = Calendar.getInstance().apply {
+        timeInMillis = currentTimeInMillis
+    }
+    val currentDate = Calendar.getInstance().apply {
+        timeInMillis = currentTimeInMillis
+    }
 
     // Create a DatePickerDialog for selecting the date
     val datePicker = DatePickerDialog(
@@ -41,6 +46,7 @@ fun Context.showDateTimePickerDialog(
                     // Set selected time values
                     selectedDate.set(Calendar.HOUR_OF_DAY, hourOfDay)
                     selectedDate.set(Calendar.MINUTE, minute)
+                    selectedDate.set(Calendar.SECOND, 0)
 
                     // Format the selected date-time using the specified pattern
                     val dateTimeFormat = SimpleDateFormat(pattern, Locale.getDefault())

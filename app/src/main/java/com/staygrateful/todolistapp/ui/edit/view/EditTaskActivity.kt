@@ -4,13 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import androidx.core.widget.addTextChangedListener
 import com.staygrateful.todolistapp.R
 import com.staygrateful.todolistapp.data.model.Task
 import com.staygrateful.todolistapp.databinding.ActivityEditTaskBinding
+import com.staygrateful.todolistapp.external.extension.getFormattedDate
 import com.staygrateful.todolistapp.external.extension.showDateTimePickerDialog
 import com.staygrateful.todolistapp.external.extension.showSnackbar
+import com.staygrateful.todolistapp.external.extension.showToast
+import com.staygrateful.todolistapp.external.helper.SchedulerHelper
 import com.staygrateful.todolistapp.ui.BaseActivity
 import com.staygrateful.todolistapp.ui.edit.viewmodel.EditViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,7 +57,7 @@ class EditTaskActivity : BaseActivity() {
      * @param intent The intent passed to the activity.
      */
     private fun retrieveIntentExtra(intent: Intent?) {
-        if(intent == null) return
+        if (intent == null) return
         // Get the task data from intent extras
         viewModel.task = IntentCompat.getParcelableExtra(intent, Task.KEY, Task::class.java)
             ?: Task.newInstance()
@@ -66,6 +70,11 @@ class EditTaskActivity : BaseActivity() {
         // Populate UI with task data
         binding.editTextTaskTitle.setText(viewModel.task.title)
         binding.editTextDescription.setText(viewModel.task.description)
+        binding.textDate.text = viewModel.task.dueDate.getFormattedDate()
+        binding.buttonCreateTask.text = ContextCompat.getString(
+            this,
+            if (viewModel.task.hasId) R.string.button_update_task else R.string.button_create_task
+        )
     }
 
     /**
@@ -90,17 +99,27 @@ class EditTaskActivity : BaseActivity() {
         binding.buttonCreateTask.setOnClickListener {
             // Save the task and handle errors
             viewModel.saveTask(viewModel.task) { error ->
-                if(error != null) {
+                if (error != null) {
                     // Show error message in Snackbar if task saving fails
                     binding.root.showSnackbar(
                         getString(
                             R.string.error_message_task,
                             error.localizedMessage
-                        ))
+                        )
+                    )
                     return@saveTask
                 }
                 // Finish activity if task is saved successfully
-                finish()
+                requestAlarmPermission { result ->
+                    if (!result) {
+                        return@requestAlarmPermission
+                    }
+                    SchedulerHelper.scheduleAlarm(
+                        this,
+                        viewModel.task,
+                    )
+                    finish()
+                }
             }
         }
 
@@ -109,9 +128,18 @@ class EditTaskActivity : BaseActivity() {
             finish()
         }
 
+        binding.iconBack.setOnClickListener {
+            // Finish activity when Cancel button is clicked
+            finish()
+        }
+
         binding.textDate.setOnClickListener {
             // Show date and time picker dialog when date TextView is clicked
-            showDateTimePickerDialog { timeInMillis, dateTime ->
+            showDateTimePickerDialog(currentTimeInMillis = viewModel.task.dueDate) { timeInMillis, dateTime ->
+                if(timeInMillis <= System.currentTimeMillis()) {
+                    showToast(getString(R.string.error_form_past_date))
+                    return@showDateTimePickerDialog
+                }
                 binding.textDate.text = dateTime
                 viewModel.task.dueDate = timeInMillis
             }

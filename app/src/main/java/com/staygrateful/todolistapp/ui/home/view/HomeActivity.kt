@@ -1,20 +1,25 @@
 package com.staygrateful.todolistapp.ui.home.view
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.staygrateful.todolistapp.R
 import com.staygrateful.todolistapp.databinding.ActivityMainBinding
 import com.staygrateful.todolistapp.external.callback.SwipeToDeleteCallback
 import com.staygrateful.todolistapp.external.extension.showSnackbar
-import com.staygrateful.todolistapp.external.helper.AlarmSchedulerHelper
+import com.staygrateful.todolistapp.external.helper.SchedulerHelper
 import com.staygrateful.todolistapp.ui.BaseActivity
 import com.staygrateful.todolistapp.ui.edit.view.EditTaskActivity
 import com.staygrateful.todolistapp.ui.home.adapter.TaskAdapter
@@ -41,8 +46,29 @@ class HomeActivity : BaseActivity() {
         TaskAdapter(
             onClickListener = { task ->
                 EditTaskActivity.start(this, task)
+            },
+            onCompletedChecked = { task, isChecked ->
+                homeViewModel.updateTask(task)
+                if (isChecked) {
+                    SchedulerHelper.cancelAlarm(this, task.id)
+                } else {
+                    SchedulerHelper.scheduleAlarm(this, task)
+                }
             }
         )
+    }
+
+    // BroadcastReceiver for handling task update events
+    private val taskUpdatedReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            // Handle task updated event
+            val taskId = intent?.getLongExtra(SchedulerHelper.TASK_ID, -1)
+            if (taskId != null && taskId != -1L) {
+                // Task with taskId is updated, update UI accordingly
+                // For example, refresh the task list
+                homeViewModel.getAllTasks(binding.searchEditText.text.toString())
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +96,12 @@ class HomeActivity : BaseActivity() {
         setupObserver()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        // Unregister broadcast receiver
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(taskUpdatedReceiver)
+    }
+
     /**
      * Receives and handles intent extras, if any, passed to the activity.
      * This function is called during the activity's initialization.
@@ -79,10 +111,10 @@ class HomeActivity : BaseActivity() {
      */
     private fun receiveIntentExtra(intent: Intent) {
         // Check if the intent contains a task ID for scheduling alarms
-        if (intent.getLongExtra(AlarmSchedulerHelper.TASK_ID, -1L) > 0L) {
+        if (intent.getLongExtra(SchedulerHelper.TASK_ID, -1L) > 0L) {
             // such as scheduling alarms or displaying specific tasks.
             // Example: Extract task ID and perform relevant actions.
-            val taskId = intent.getLongExtra(AlarmSchedulerHelper.TASK_ID, -1L)
+            val taskId = intent.getLongExtra(SchedulerHelper.TASK_ID, -1L)
             // Perform actions based on the task ID, such as scheduling alarms or displaying the task.
         }
     }
@@ -97,10 +129,22 @@ class HomeActivity : BaseActivity() {
         homeViewModel.allTasks.observe(this) { tasks ->
             with(tasks) {
                 taskAdapter.submitList(this)
+                binding.contentEmpty.textMessage.setText(
+                    ContextCompat.getString(
+                        this@HomeActivity, if (binding.searchEditText.text.toString()
+                                .isEmpty()
+                        ) R.string.error_message_empty_task else R.string.error_message_found_task
+                    )
+                )
                 binding.contentEmpty.root.visibility =
                     if (tasks.isEmpty()) View.VISIBLE else View.GONE
             }
         }
+        // Register broadcast receiver
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            taskUpdatedReceiver,
+            IntentFilter(SchedulerHelper.TASK_UPDATE)
+        )
     }
 
     /**
@@ -133,12 +177,17 @@ class HomeActivity : BaseActivity() {
             // Attach swipe-to-delete functionality using ItemTouchHelper
             ItemTouchHelper(SwipeToDeleteCallback(this@HomeActivity) { position ->
                 val task = taskAdapter.currentList[position]
+                SchedulerHelper.cancelAlarm(this@HomeActivity, task.id)
                 // Delete the task from the database
                 homeViewModel.deleteTask(task)
                 // Show a Snackbar with "Undo" option for undoing deletion
-                binding.root.showSnackbar("Task deleted", "Undo") {
+                binding.root.showSnackbar(
+                    context.getString(R.string.task_deleted),
+                    context.getString(R.string.undo)
+                ) {
                     // Implement logic to undo deletion
                     homeViewModel.insertTask(task)
+                    SchedulerHelper.scheduleAlarm(this@HomeActivity, task)
                 }
             }).attachToRecyclerView(this)
         }

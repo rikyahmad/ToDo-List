@@ -1,7 +1,7 @@
 package com.staygrateful.todolistapp.ui.home.contract
 
-import androidx.lifecycle.LiveData
 import com.staygrateful.todolistapp.data.model.Task
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Contract interface for defining interactions between the View and Presenter in the Homepage feature.
@@ -25,6 +25,16 @@ interface HomepageContract {
          * @param title Optional parameter to filter tasks by title.
          */
         fun getAllTasks(title: String = "")
+
+        /**
+         * Get upcoming tasks based on the due date.
+         *
+         * This method retrieves a list of tasks where the due date is greater than the current time,
+         * ordered by due date in ascending order.
+         *
+         * @return A LiveData of List<Task> representing upcoming tasks.
+         */
+        fun getUpcomingTasks(): Flow<List<Task>>
 
         /**
          * Inserts a new task into the data layer.

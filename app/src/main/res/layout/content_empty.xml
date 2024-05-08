@@ -13,6 +13,7 @@
         android:contentDescription="@null"/>
 
     <TextView
+        android:id="@+id/textTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/error_message_oops"
@@ -24,6 +25,7 @@
         android:fontFamily="sans-serif-medium"/>
 
     <TextView
+        android:id="@+id/textMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/error_message_empty_task"

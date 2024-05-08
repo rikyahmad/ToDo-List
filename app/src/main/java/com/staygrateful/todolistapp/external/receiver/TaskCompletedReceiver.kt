@@ -3,9 +3,9 @@ package com.staygrateful.todolistapp.external.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
-import com.staygrateful.todolistapp.external.helper.AlarmNotificationHelper
-import com.staygrateful.todolistapp.external.helper.AlarmSchedulerHelper
+import com.staygrateful.todolistapp.external.helper.NotificationHelper
+import com.staygrateful.todolistapp.external.helper.SchedulerHelper
+import com.staygrateful.todolistapp.external.services.TaskService
 
 /**
  * BroadcastReceiver for handling task completion events.
@@ -25,14 +25,15 @@ class TaskCompletedReceiver : BroadcastReceiver() {
      * @param intent The Intent being received.
      */
     override fun onReceive(context: Context?, intent: Intent?) {
+        if (context == null) return
+        if (intent == null) return
         // Extract task ID from the intent
-        val taskId = intent?.getLongExtra(AlarmSchedulerHelper.TASK_ID, -1)
+        val taskId = intent.getLongExtra(SchedulerHelper.TASK_ID, -1)
         // Check if task ID is valid
-        if (taskId != null && taskId != -1L) {
-            // Display a toast message indicating that the task is completed
-            Toast.makeText(context, "Task $taskId is completed!", Toast.LENGTH_SHORT).show()
+        if (taskId != -1L) {
             // Cancel any existing notifications for the completed task
-            AlarmNotificationHelper.cancelNotification(context!!)
+            NotificationHelper.cancelNotification(context, taskId)
+            TaskService.completionUpdate(context, taskId)
         }
     }
 }

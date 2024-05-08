@@ -3,9 +3,12 @@ package com.staygrateful.todolistapp.external.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
-import com.staygrateful.todolistapp.external.helper.AlarmNotificationHelper
-import com.staygrateful.todolistapp.external.helper.AlarmSchedulerHelper
+import androidx.core.content.IntentCompat
+import com.staygrateful.todolistapp.R
+import com.staygrateful.todolistapp.data.model.NotificationTask
+import com.staygrateful.todolistapp.data.model.Task
+import com.staygrateful.todolistapp.external.helper.SchedulerHelper
+import com.staygrateful.todolistapp.external.services.TaskService
 
 /**
  * BroadcastReceiver for handling early alarm events.
@@ -25,19 +28,22 @@ class EarlyAlarmReceiver : BroadcastReceiver() {
      * @param intent The Intent being received.
      */
     override fun onReceive(context: Context?, intent: Intent?) {
-        // Extract task ID from the intent
-        val taskId = intent?.getLongExtra(AlarmSchedulerHelper.TASK_ID, -1)
+        if (context == null) return
+        if (intent == null) return
+        // Extract task from the intent
+        val task =
+            IntentCompat.getParcelableExtra(intent, SchedulerHelper.TASK, Task::class.java)
         // Check if task ID is valid
-        if (taskId != null && taskId != -1L) {
-            // Display a toast message indicating the early due task
-            Toast.makeText(context, "Early task with ID $taskId!", Toast.LENGTH_SHORT).show()
-            // Show a notification for the early due task
-            AlarmNotificationHelper.showAlarmNotification(
-                context!!,
-                taskId,
-                "Early Alarm",
-                "Alarm Akan Bunyi",
-                true
+        if (task != null) {
+            // Show a notification for the due task
+            TaskService.postNotification(
+                context,
+                NotificationTask(
+                    task.id,
+                    context.getString(R.string.notification_upcoming_task, task.title),
+                    context.getString(R.string.notification_upcoming_message),
+                    true
+                )
             )
         }
     }
