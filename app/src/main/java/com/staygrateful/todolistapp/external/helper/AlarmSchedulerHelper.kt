@@ -12,10 +12,23 @@ import com.staygrateful.todolistapp.external.receiver.AlarmReceiver
 import com.staygrateful.todolistapp.external.receiver.EarlyAlarmReceiver
 import com.staygrateful.todolistapp.ui.home.view.HomeActivity
 
+/**
+ * Helper class for scheduling and canceling alarms.
+ */
 object AlarmSchedulerHelper {
 
+    /**
+     * Key for passing task ID in intent extras.
+     */
     const val TASK_ID = "TASK_ID"
 
+    /**
+     * Schedules an alarm.
+     * @param context The application context.
+     * @param taskId The ID of the task associated with the alarm.
+     * @param dueDateTimeMillis The time when the alarm should trigger.
+     * @param earlyTimeMillis The time before the dueDateTimeMillis to trigger an early alarm.
+     */
     fun scheduleAlarm(
         context: Context,
         taskId: Long,
@@ -60,7 +73,7 @@ object AlarmSchedulerHelper {
         }
 
         if (canScheduleExactAlarms) {
-            // show a notification to allow dismissing the alarm 10 minutes before it actually triggers
+            // Show a notification to allow dismissing the alarm 10 minutes before it actually triggers
             val dismissalTriggerTime = dueDateTimeMillis - earlyTimeMillis
 
             AlarmManagerCompat.setExactAndAllowWhileIdle(
@@ -79,6 +92,11 @@ object AlarmSchedulerHelper {
         }
     }
 
+    /**
+     * Cancels an alarm.
+     * @param context The application context.
+     * @param taskId The ID of the task associated with the alarm to be canceled.
+     */
     fun cancelAlarm(context: Context, taskId: Long) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val alarmIntent = Intent(context, AlarmReceiver::class.java)
@@ -92,6 +110,11 @@ object AlarmSchedulerHelper {
         }
     }
 
+    /**
+     * Checks if the app has the necessary permission for scheduling exact alarms.
+     * @param context The application context.
+     * @return true if the app has the necessary permission, false otherwise.
+     */
     fun hasScheduleExactAlarmPermission(context: Context): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val packageManager = context.packageManager
@@ -104,4 +127,3 @@ object AlarmSchedulerHelper {
         return true
     }
 }
-

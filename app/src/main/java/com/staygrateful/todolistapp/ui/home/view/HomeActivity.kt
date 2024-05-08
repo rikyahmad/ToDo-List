@@ -48,6 +48,7 @@ class HomeActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Receive and handle intent extras, if any
         receiveIntentExtra(intent)
 
         // Enable edge-to-edge display for immersive experience
@@ -69,9 +70,20 @@ class HomeActivity : BaseActivity() {
         setupObserver()
     }
 
+    /**
+     * Receives and handles intent extras, if any, passed to the activity.
+     * This function is called during the activity's initialization.
+     * It checks if there are any intent extras related to tasks,
+     * such as task IDs for scheduling alarms or notifications.
+     * @param intent The intent passed to the activity.
+     */
     private fun receiveIntentExtra(intent: Intent) {
+        // Check if the intent contains a task ID for scheduling alarms
         if (intent.getLongExtra(AlarmSchedulerHelper.TASK_ID, -1L) > 0L) {
-            // TODO:
+            // such as scheduling alarms or displaying specific tasks.
+            // Example: Extract task ID and perform relevant actions.
+            val taskId = intent.getLongExtra(AlarmSchedulerHelper.TASK_ID, -1L)
+            // Perform actions based on the task ID, such as scheduling alarms or displaying the task.
         }
     }
 

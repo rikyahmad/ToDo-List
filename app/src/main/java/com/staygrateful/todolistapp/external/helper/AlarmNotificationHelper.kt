@@ -16,6 +16,9 @@ import com.staygrateful.todolistapp.R
 import com.staygrateful.todolistapp.external.receiver.TaskCompletedReceiver
 import com.staygrateful.todolistapp.ui.home.view.HomeActivity
 
+/**
+ * Helper class for managing alarm notifications.
+ */
 object AlarmNotificationHelper {
 
     private const val CHANNEL_ID = "alarm_channel"
@@ -23,6 +26,14 @@ object AlarmNotificationHelper {
     private const val CHANNEL_NAME = "Alarm Channel"
     private const val NOTIFICATION_ID = 123
 
+    /**
+     * Shows an alarm notification.
+     * @param context The application context.
+     * @param taskId The ID of the task associated with the alarm.
+     * @param title The title of the notification.
+     * @param message The message content of the notification.
+     * @param earlyNotification Indicates if it's an early notification.
+     */
     fun showAlarmNotification(
         context: Context,
         taskId: Long,
@@ -46,11 +57,28 @@ object AlarmNotificationHelper {
         nm.notify(NOTIFICATION_ID, nb.build())
     }
 
+    /**
+     * Cancels the alarm notification.
+     * @param context The application context.
+     */
     fun cancelNotification(context: Context) {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         nm.cancel(NOTIFICATION_ID)
     }
 
+    /**
+     * Creates a notification builder.
+     * @param context The application context.
+     * @param taskId The ID of the task associated with the notification.
+     * @param title The title of the notification.
+     * @param text The text content of the notification.
+     * @param channelID The ID of the notification channel.
+     * @param channelName The name of the notification channel.
+     * @param channelDesc The description of the notification channel.
+     * @param earlyNotification Indicates if it's an early notification.
+     * @param priority The priority of the notification.
+     * @return A NotificationCompat.Builder object.
+     */
     fun createNotificationBuilder(
         context: Context,
         taskId: Long,
@@ -63,7 +91,7 @@ object AlarmNotificationHelper {
         priority: Int = NotificationCompat.PRIORITY_MAX
     ): NotificationCompat.Builder {
 
-        // Be sure you create the channel for the notification
+        // Ensure the notification channel is created
         createNotificationChannelIfNecessary(
             context,
             channelID,
@@ -101,12 +129,22 @@ object AlarmNotificationHelper {
             .setStyle(NotificationCompat.DecoratedCustomViewStyle())
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(opennedPI)
-            .addAction(R.drawable.ic_delete,
-                context.getString(R.string.notification_set_completed), completedPI)
+            .addAction(
+                R.drawable.ic_delete,
+                context.getString(R.string.notification_set_completed), completedPI
+            )
             .setContentTitle(title) // Required.
             .setContentText(text) // Required.
     }
 
+    /**
+     * Creates a notification channel if necessary.
+     * @param context The application context.
+     * @param channelID The ID of the notification channel.
+     * @param channelName The name of the notification channel.
+     * @param channelDesc The description of the notification channel.
+     * @param earlyNotification Indicates if it's an early notification.
+     */
     fun createNotificationChannelIfNecessary(
         context: Context,
         channelID: String,
@@ -126,7 +164,7 @@ object AlarmNotificationHelper {
 
         if (manager is NotificationManager) {
             if (manager.getNotificationChannel(channelID) == null) {
-                // cleans up previous notification channel that had sound properties
+                // Clean up previous notification channel with sound properties
                 oldNotificationChannelCleanup(manager, channelID)
                 NotificationChannel(
                     channelID,
@@ -137,10 +175,10 @@ object AlarmNotificationHelper {
                     lightColor = Color.BLUE
                     lockscreenVisibility = Notification.VISIBILITY_PUBLIC
                     if (earlyNotification) {
-                        // delay, run, delay, run...
+                        // Delay, run, delay, run...
                         vibrationPattern = longArrayOf(100L, 1000L, 500L, 1000L)
                     } else {
-                        // delay, run, delay, run...
+                        // Delay, run, delay, run...
                         vibrationPattern = longArrayOf(100L, 2000L, 1000L, 2000L, 1000L, 2000L)
                         setSound(soundUri, audioAttributes)
                     }
@@ -153,6 +191,11 @@ object AlarmNotificationHelper {
         }
     }
 
+    /**
+     * Cleans up the old notification channel.
+     * @param notificationManager The NotificationManager object.
+     * @param channelId The ID of the notification channel to be cleaned up.
+     */
     fun oldNotificationChannelCleanup(notificationManager: NotificationManager, channelId: String) {
         try {
             notificationManager.deleteNotificationChannel(channelId)

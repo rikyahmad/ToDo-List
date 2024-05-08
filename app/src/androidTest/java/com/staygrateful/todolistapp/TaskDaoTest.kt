@@ -17,9 +17,6 @@ class TaskDaoTest {
     private lateinit var taskDao: TaskDao
     private lateinit var database: TaskDatabase
 
-    /*@get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()*/
-
     @Before
     fun createDatabase() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
@@ -38,19 +35,19 @@ class TaskDaoTest {
     @Test
     @Throws(Exception::class)
     fun insertAndGetTask() = runBlocking {
-        val task = Task(1, "Test Task", "Description", System.currentTimeMillis(), false)
+        val task = Task(1001, "Test Task", "Description", System.currentTimeMillis(), false)
         taskDao.insertTask(task)
-        //val allTasks = taskDao.getAllTasks().first()
-        //assert(allTasks.contains(task))
+        val allTasks = taskDao.getAllTasks("")
+        assert(allTasks.contains(task))
     }
 
     @Test
     @Throws(Exception::class)
     fun deleteTask() = runBlocking {
-        val task = Task(2, "Test Task", "Description", System.currentTimeMillis(), false)
+        val task = Task(1001, "Test Task", "Description", System.currentTimeMillis(), false)
         taskDao.insertTask(task)
         taskDao.deleteTask(task)
-        //val allTasks = taskDao.getAllTasks().first()
-        //assert(!allTasks.contains(task))
+        val allTasks = taskDao.getAllTasks("")
+        assert(!allTasks.contains(task))
     }
 }
